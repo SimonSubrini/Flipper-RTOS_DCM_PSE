@@ -1,6 +1,6 @@
 /*
  * lcd.h
- * Driver minimalista para LCD 16x2 en modo 4-bits.
+ * Driver para LCD 16x2 en modo 4-bits.
  *
  * Requiere: RS, RW, EN y D4-D7.
  */

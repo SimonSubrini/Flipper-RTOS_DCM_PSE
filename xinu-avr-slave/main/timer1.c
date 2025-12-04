@@ -1,5 +1,5 @@
 /*
- * timer1.c - Driver del TIMER1 del atmega328p
+ * timer1.c - Driver del TIMER1
  */
 
 #include "timer1.h"

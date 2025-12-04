@@ -1,4 +1,4 @@
-
+// Script desarrollado en la cursada de PSE
 /**********************************************************************
  *
  * serial.c - Driver del UART del atmega328p

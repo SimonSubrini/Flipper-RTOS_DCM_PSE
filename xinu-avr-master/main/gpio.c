@@ -1,4 +1,4 @@
-  
+  // Script desarrollado en la cursada de PSE - adaptado para incluir interrupciones via INT0
 /*
  * driver gpio: permite operar bits de los puertos gpios individualmente,
  * o en forma paralela (con los 8 bits del puerto).

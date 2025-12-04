@@ -31,7 +31,6 @@ static void lcd_pulse_enable(void) {
 
 
 static void lcd_write_nibble(uint8_t nibble) {
-    // gpio_pin con op=1 (ON) o op=0 (OFF)
     gpio_pin(LCD_D4_PIN, (nibble) & 0x01);
     gpio_pin(LCD_D5_PIN, (nibble >> 1) & 0x01);
     gpio_pin(LCD_D6_PIN, (nibble >> 2) & 0x01);
@@ -123,7 +122,7 @@ void lcd_print(char *str) {
 
 /* Función ligera para imprimir enteros sin usar sprintf */
 void lcd_print_uint16(uint16_t value) {
-	char buffer[6]; // Suficiente para 65535 + null
+	char buffer[6]; // Suficiente para 65535 (max valor posible de "value") + null 
 	char *ptr = &buffer[5];
 	*ptr = '\0';
 	

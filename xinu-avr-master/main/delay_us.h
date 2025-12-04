@@ -1,3 +1,5 @@
+// Script desarrollado en la cursada de PSE
+
 static inline void delay_us(volatile int us) {
 	// PARA 16MHZ
 

@@ -1,5 +1,5 @@
 /*
- * main.c - Master Pinball Controller (Xinu Architecture)
+ * main.c - Master Pinball 
  */
 
 #include <xinu.h>
@@ -12,7 +12,7 @@
 #include "lcd.h"
 #include "servo.h"
 
-/* --- CONFIGURACIÓN DE PINES (Revisar contra tabla física) --- */
+/* --- CONFIGURACIÓN DE PINES --- */
 #define PIN_SCORE_INT  2  // INT0 (PD2) - Sensor de puntos
 #define PIN_PHOTOINTERRUPT      3  // PD3 - Sensor de pérdida de vida
 #define PIN_RESET_BTN  8  // PB0 - Botón Reset
@@ -39,13 +39,12 @@ typedef enum {
 #define ANIM_LIFE_LOST  5
 #define ANIM_GAME_OVER  6
 
-/* --- Comunicación de animaciones entre Tareas --- */
-volatile uint8_t anim_request = ANIM_NONE;
-volatile uint8_t current_anim = ANIM_NONE;
-volatile uint8_t last_anim = ANIM_NONE;
 
 /* --- GLOBALES COMPARTIDAS --- */
 // Volatile porque se modifican en interrupciones o entre tareas
+volatile uint8_t anim_request = ANIM_NONE;
+volatile uint8_t current_anim = ANIM_NONE;
+volatile uint8_t last_anim = ANIM_NONE;
 volatile game_state_t current_state = STATE_MENU;
 volatile uint16_t score = 0;
 volatile uint8_t lives = MAX_LIVES;
@@ -58,8 +57,6 @@ volatile uint8_t update_display_flag = 0; // Semáforo ligero para LCD
 void score_isr_logic(void){
     if (current_state == STATE_PLAYING) {
         score += 1; // Sumar puntos
-        
-        // Chequeo rápido de nivel (Lógica crítica en ISR, mantener breve)
         if (current_level == 1 && score >= LEVEL_1_SCORE) current_level = 2;
         else if (current_level == 2 && score >= LEVEL_2_SCORE) current_level = 3;
         
@@ -76,7 +73,6 @@ void task_game_logic(void) {
             case STATE_MENU:
                 // Esperar botón de inicio (Reset)
                 // botón con pull-up interno (LOW = presionado)
-                // gpio_pin(8, GET) devuelve 0 o 1
                 anim_request = ANIM_START_GAME; 
                 if (gpio_pin(PIN_RESET_BTN, 3) == 0) { // 3 = GET
                     // Reiniciar variables
@@ -199,13 +195,13 @@ void task_animator(void) {
 	last_anim = 255; // Valor imposible para forzar ejecución inicial
 
 	while(1) {
-		// 1. Verificar si hay nueva solicitud desde la lógica del juego
+		// Verificar si hay nueva solicitud desde la lógica del juego
 		if (anim_request != ANIM_NONE) {
 			current_anim = anim_request;
-			anim_request = ANIM_NONE; // Consumimos la solicitud
+			anim_request = ANIM_NONE; // Consumo la solicitud
 		}
 
-		// 2. Ejecutar lógica según el estado actual
+		// Ejecutar lógica según el estado actual
 		switch(current_anim) {
 			
 			case ANIM_NONE:
@@ -286,6 +282,7 @@ void task_animator(void) {
 				break;
 			
 			case ANIM_GAME_OVER:
+				// Este es un evento de una sola vez 
 				if (current_anim != last_anim) {
 					serial_put_str_flash(PSTR("CX3")); // Silencio, ajedrez rapido
 					sleep(4);
@@ -319,11 +316,9 @@ void sys_init(void) {
     lcd_init();
 	lcd_set_cursor(0, 0);;
 	lcd_print_flash(PSTR("Cargando..."));
-	//serial_put_str_flash(PSTR("Cargando...\r\n"));
 	char cmd;
 	do { 
 		cmd = serial_get_char();
-		//serial_put_char(cmd);
 		}
 	while(cmd != 'A');  // Bloqueante, espero a que llegue "A", que indica que el slave esta listo
 	

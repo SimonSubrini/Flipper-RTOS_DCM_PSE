@@ -41,7 +41,7 @@ const uint16_t SEQ_Z[] PROGMEM = { 0x0660, 0x0FF0, 0xFFFF, 0x0FF0 }; // Expansio
 #define VEL_3 5
 
 /* --- GLOBALES COMPARTIDAS --- */
-unsigned char audio_buffer[BUFFER_SIZE]; // 512 bytes RAM
+unsigned char audio_buffer[BUFFER_SIZE]; // hasta 512 bytes de RAM (dependiendo del valor configurado en "BUFFER_SIZE")
 
 // Semáforo
 sid32 sem_sd_request;
@@ -53,7 +53,7 @@ volatile uint8_t is_playing = 0;
 
 // Estado Matriz LED (Volatile para acceso concurrente)
 
-volatile uint16_t *current_seq_ptr = SEQ_U;  // Puntero a Flash donde inicia la secuencia actual
+volatile uint16_t *current_seq_ptr = SEQ_U;  // Puntero a donde inicia la secuencia inicial
 volatile uint8_t current_seq_len = LEN_U;
 volatile uint8_t led_speed_cycles = VEL_1; 
 
@@ -114,7 +114,7 @@ void task_serial(void) {
     serial_put_str_flash(PSTR("A"));
 
     while(1) {
-        cmd = serial_get_char(); // Bloqueante
+        cmd = serial_get_char(); // Bloqueante (dentro del scope de la tarea)
 
         switch(cmd) {
             // --- AUDIO ---
@@ -122,7 +122,6 @@ void task_serial(void) {
                 if (!is_playing) {
                     timer1_start();
                     is_playing = 1;
-                    //serial_put_str_flash(PSTR("Play\r\n"));
                 }
                 break;
             case 'C': // Pause
@@ -130,7 +129,6 @@ void task_serial(void) {
                     timer1_stop();
                     is_playing = 0;
                     tx2dac(0x80);
-                    //serial_put_str_flash(PSTR("Pause\r\n"));
                 }
                 break;
 
@@ -138,47 +136,38 @@ void task_serial(void) {
             case 'U': 
 				current_seq_ptr = SEQ_U; 
 				current_seq_len = LEN_U;
-				//serial_put_str_flash(PSTR("Matrix-U\r\n"));
 				break;
             case 'V': 
 				current_seq_ptr = SEQ_V; 
 				current_seq_len = LEN_V;
-				//serial_put_str_flash(PSTR("Matrix-V\r\n"));
 				break;
             case 'W': 
 				current_seq_ptr = SEQ_W; 
 				current_seq_len = LEN_W;
-				//serial_put_str_flash(PSTR("Matrix-W\r\n"));
 				break;
             case 'X': 
 				current_seq_ptr = SEQ_X; 
 				current_seq_len = LEN_X;
-				//serial_put_str_flash(PSTR("Matrix-X\r\n"));
 				break;
             case 'Y': 
 				current_seq_ptr = SEQ_Y; 
 				current_seq_len = LEN_Y;
-				//serial_put_str_flash(PSTR("Matrix-Y\r\n"));
 				break;
             case 'Z': 
 				current_seq_ptr = SEQ_Z; 
 				current_seq_len = LEN_Z;
-				//serial_put_str_flash(PSTR("Matrix-Z\r\n"));
 				break;
 
             // --- VELOCIDAD LED ---
             // Menos ciclos = animación más rápida
             case '1': 
 				led_speed_cycles = VEL_1;
-				//serial_put_str_flash(PSTR("Matrix-1\r\n"));
 				break; // Muy rápido
             case '2': 
 				led_speed_cycles = VEL_2;
-				//serial_put_str_flash(PSTR("Matrix-2\r\n"));
 				break; // Normal
             case '3': 
 				led_speed_cycles = VEL_3; 
-				//serial_put_str_flash(PSTR("Matrix-3\r\n"));
 				break; // Lento
         }
     }
@@ -189,7 +178,6 @@ void hardware_init(void) {
     matrix_init(); 
     
     if (sd_init() != SD_OK) {
-        //serial_put_str_flash(PSTR("E-SD\r\n"));
         while(1); 
     }
     dac_init();
@@ -199,7 +187,7 @@ void hardware_init(void) {
 /* --- MAIN --- */
 void main(void) {
     hardware_init();
-    sleepms(5000); 
+    sleepms(5000);  // Espera relativamente grande para que se aprecie el mensaje "Cargando..." en la LCD
 
     sem_sd_request = semcreate(0);
 

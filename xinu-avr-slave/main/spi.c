@@ -43,7 +43,7 @@ void spi_init(void) {
 }
 
 void spi_set_speed(spi_clock_div_t clock_div) {
-    // Limpiamos los bits de velocidad primero
+    // Limpio los bits de velocidad primero
     spi->spcr &= ~((1 << SPR1) | (1 << SPR0));
     spi->spsr &= ~(1 << SPI2X);
 
