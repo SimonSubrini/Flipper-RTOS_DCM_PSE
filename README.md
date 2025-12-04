@@ -34,7 +34,7 @@ El Master administra la lógica completa del juego y la interfaz de usuario.
 * **Coordinación:** Envío de comandos de efectos al Slave.
 
 
-**Figura 2:** Diagramas de flujo de las tareas del Master.
+**Figura 2:** Diagrama de flujo de la tarea principal del Master.
 ![Diag_flujo_tareas_master](images/Diag_flujo_tareas_master.png)
 
 ---
@@ -52,10 +52,6 @@ El  Slave gestiona tareas intensivas en I/O y temporización.
 * **Audio:** Reproducción de audio PCM de 8 bits desde tarjeta MicroSD (SPI) mediante un **DAC MCP4725** (I2C).
 * **Iluminación:** Control de una matriz de LEDs multiplexada.
 * **Comunicación:** Recepción continua de comandos UART desde el Master.
-
-
-**Figura 4:** Diagramas de flujo de las tareas del Slave.
-![Diag_flujo_tareas_slave](images/Diag_flujo_tareas_slave.png)
 
 ---
 
@@ -124,14 +120,14 @@ Todo el hardware se integró en una carcasa personalizada e impresa en 3D (PLA).
 * **Master**
 
 
-* **Figura 5:** Diagrama de conexiones del Master.
+* **Figura 4:** Diagrama de conexiones del Master.
 ![Diag_conexiones_master](images/Diag_conexiones_master.png)
 
 
 * **Slave**
 
 
-* **Figura 6:** Diagrama de conexiones del Slave.
+* **Figura 5:** Diagrama de conexiones del Slave.
 ![Diag_conexiones_slave](images/Diag_conexiones_slave.png)
 ---
 
