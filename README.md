@@ -120,14 +120,14 @@ Todo el hardware se integró en una carcasa personalizada e impresa en 3D (PLA).
 * **Master**
 
 
-* **Figura 4:** Diagrama de conexiones del Master.
+**Figura 4:** Diagrama de conexiones del Master.
 ![Diag_conexiones_master](images/Diag_conexiones_master.png)
 
 
 * **Slave**
 
 
-* **Figura 5:** Diagrama de conexiones del Slave.
+**Figura 5:** Diagrama de conexiones del Slave.
 ![Diag_conexiones_slave](images/Diag_conexiones_slave.png)
 ---
 
