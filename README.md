@@ -15,7 +15,8 @@ El sistema utiliza un esquema **Maestro–Esclavo** comunicado mediante **UART**
 ---
 
 ## Master (Lógica y Control)
-<br>
+
+
 **Figura 1:** Diagrama de tareas concurrentes en Xinu (Master y Slave).
 ![Diag_bloques_tareas_master](images/Diag_bloques_tareas_master.png)
 
@@ -31,14 +32,16 @@ El Master administra la lógica completa del juego y la interfaz de usuario.
   * Detección de pérdida de vida mediante una barrera infrarroja.
 * **Interfaz:** Control de una pantalla **LCD 16x02**.
 * **Coordinación:** Envío de comandos de efectos al Slave.
-<br>
+
+
 **Figura 2:** Diagramas de flujo de las tareas del Master.
 ![Diag_flujo_tareas_master](images/Diag_flujo_tareas_master.png)
 
 ---
 
 ## Slave (Multimedia y Efectos)
-<br>
+
+
 **Figura 3:** Diagrama de flujo de tareas de Audio y Luces del Slave.
 ![Diag_bloques_tareas_slave](images/Diag_bloques_tareas_slave.png)
 
@@ -49,7 +52,8 @@ El  Slave gestiona tareas intensivas en I/O y temporización.
 * **Audio:** Reproducción de audio PCM de 8 bits desde tarjeta MicroSD (SPI) mediante un **DAC MCP4725** (I2C).
 * **Iluminación:** Control de una matriz de LEDs multiplexada.
 * **Comunicación:** Recepción continua de comandos UART desde el Master.
-<br>
+
+
 **Figura 4:** Diagramas de flujo de las tareas del Slave.
 ![Diag_flujo_tareas_slave](images/Diag_flujo_tareas_slave.png)
 
@@ -118,13 +122,15 @@ Todo el hardware se integró en una carcasa personalizada e impresa en 3D (PLA).
 ### Diagramas de Conexión
 
 * **Master**
-<br>
+
+
 * **Figura 5:** Diagrama de conexiones del Master.
 ![Diag_conexiones_master](images/Diag_conexiones_master.png)
 
 
 * **Slave**
-<br>
+
+
 * **Figura 6:** Diagrama de conexiones del Slave.
 ![Diag_conexiones_slave](images/Diag_conexiones_slave.png)
 ---
