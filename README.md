@@ -17,7 +17,7 @@ El sistema utiliza un esquema **Maestro–Esclavo** comunicado mediante **UART**
 ## Master (Lógica y Control)
 
 
-**Figura 1:** Diagrama de tareas concurrentes en Xinu (Master y Slave).
+**Figura 1:** Diagrama de tareas concurrentes en Xinu (Master).
 ![Diag_bloques_tareas_master](images/Diag_bloques_tareas_master.png)
 
 El Master administra la lógica completa del juego y la interfaz de usuario.
@@ -42,7 +42,7 @@ El Master administra la lógica completa del juego y la interfaz de usuario.
 ## Slave (Multimedia y Efectos)
 
 
-**Figura 3:** Diagrama de flujo de tareas de Audio y Luces del Slave.
+**Figura 3:** Diagrama de tareas concurrentes en Xinu (Slave).
 ![Diag_bloques_tareas_slave](images/Diag_bloques_tareas_slave.png)
 
 El  Slave gestiona tareas intensivas en I/O y temporización.
